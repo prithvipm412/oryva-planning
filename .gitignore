@@ -1,0 +1,12 @@
+# Keep the copied assignment brief local to this machine.
+assignment-brief.txt
+
+# Python virtual environment and bytecode
+.venv/
+__pycache__/
+*.py[cod]
+
+# Generated SQLite databases
+*.sqlite
+*.sqlite3
+*.db
