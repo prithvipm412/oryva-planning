@@ -7,32 +7,32 @@
   "mitigations_all_feasible": true,
   "production_within_weekly_capacity": true,
   "row_counts": {
-    "mitigations.csv": 1778,
+    "mitigations.csv": 211,
     "production_capacity_weekly.csv": 288,
-    "production_plan.csv": 3,
+    "production_plan.csv": 6,
     "projected_balance.csv": 1308,
-    "shortage_ranking.csv": 1050,
-    "shortages.csv": 1050
+    "shortage_ranking.csv": 147,
+    "shortages.csv": 147
   },
   "sha256": {
     "bill_of_material.csv": "64d63965b6254afa654ee1a21d2a1ef381d61ca33a54beda9c81d2c2ed9627a6",
     "edge_case_injections.csv": "d271297dd1d27aaef75455a55bd468a72cdaf06e16e44f62d30c085269b56582",
     "forecast_demand.csv": "aaf233c7a1911a8ecec1a664748ed5f6931c51b4c77429962a977adf8e3c360f",
-    "inventory.csv": "64481109ac636e4db22f58adc31598259baf38cf17867fb93bf2db191d6dd740",
+    "inventory.csv": "7694613c8d9312a1f26ec167f6f858848475ac4847095f8609272e9b0030e3a8",
     "issue_case.csv": "e8494e9c8238642a932721f345a71e24f4db182383c4e378b6126192711beeca",
     "issue_case_record.csv": "5266d29ce6a8c803aa1f5dec558ee9037b5a11fa99edb9156b96b74eae39e667",
     "lead_time.csv": "34e23fbcb252561b6f0fb51c3cc1289926d39f1729901cb15c27e598362e638f",
     "lifecycle_history.csv": "927dbac8f8ed87b7ff6c3a783f7598747e993c5fc87eec27a709e077e6e1f7ff",
     "location.csv": "c63216bcde1c9e40bf0477f019160ba4d6d6885564c66995b2b550ab5a9a44f5",
-    "mitigations.csv": "25dded14ad63080f757225ef5372abbe3b58ee2cd725dcbeab54cdf3b475ce26",
+    "mitigations.csv": "2fcbeacf3a165196a699ff6ea7331c2c75567b8b1857e3d31b916a7ce67c66fa",
     "production_capacity.csv": "93f668bee9cf4fd1b721110c057f65579c26df5349a2834f234df571f5f95e58",
     "production_capacity_weekly.csv": "c7629ebf2c1cb1d56a77edb34301191cad1753d5650479e30a02b581c151f3c3",
-    "production_plan.csv": "b4b8cff448ddd4b81eae5ec98aa0d2263169f80b7650f00764d4a5b95c0f649b",
-    "projected_balance.csv": "499022c8aad75248a6e8ab3fd0ca1cce557d8d97773ffe8be96f904367e8b2c4",
+    "production_plan.csv": "b8ceec7f6e0a6075d3eed0a1d7bf7e669923d7cfaaed0fedf63d0edc6177d3fb",
+    "projected_balance.csv": "6e80324b019ad14ba46ce35de0eecacd26f971f33fdd62e53d79de563be9ef3a",
     "purchase_order.csv": "19ec824eb7c20d40e7ad2763a1d348bc7501c328925610363f9fa9f4a8dd50a8",
     "purchase_order_line.csv": "1c1bc0d0026ac1e5ba4984f1ca85218d35a0737fec2e55ba5abfd366c5b5410a",
-    "shortage_ranking.csv": "61e60f371ba70249d2ddbb9fbe62e188be1a09dfcd2add20c1a9ba28ecfbff70",
-    "shortages.csv": "62f87469934b9f40f33a446c38b0c902484d264c5af9e057d31a60b3de14f147",
+    "shortage_ranking.csv": "47dab7daecac74565fda247fe45bd415ae27142480167d98e9107b1b67e9763b",
+    "shortages.csv": "cde2f270a296aef71f36adbbf54699edecfc1bd28542301f2497852c9371e3b8",
     "sku.csv": "9093ece8a3f69ce1e88c507f2d07c3309983e05093b5ed309d79f8598cf9512d",
     "sku_location_assortment.csv": "b5a3a0a679e51f8b63e3febeef0a5e704b094a7ad518e4612263221b57e22f5e",
     "sku_substitute.csv": "e0c3f49b864028c9e7d7d448625049739fcfb87f1eadae1a4566bbb5eb6a13fd",
@@ -40,5 +40,15 @@
     "supplier_capacity.csv": "0b51172b0ac4c8832dccc4b0ed48d3738b53819c22d4e7e5e51772aa68b856a8",
     "transport_delay.csv": "c524100a8fbedd9b796c3e1ed3bdb8882e73ba32c5502d491c6fbfc454c58b26"
   },
+  "shortage_distribution": {
+    "mean_qty": 50.12,
+    "median_qty": 40.43,
+    "rate": 0.112385,
+    "top_causes": {
+      "Demand exceeds opening balance and scheduled arrivals": 141,
+      "Demand exceeds opening balance and scheduled arrivals; production constraint limits feasible BOM conversion": 6
+    }
+  },
+  "shortage_rate_in_target": true,
   "shortages_explainable": true
 }

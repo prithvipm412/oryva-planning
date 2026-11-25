@@ -14,6 +14,7 @@
     "issue_case",
     "ground_truth"
   ],
+  "opening_inventory_rule": "Seed opening stock near one forecast horizon of baseline demand (weeks * baseline * seeded 0.95-1.05 safety factor), retaining seeded forecast spikes and receipt variation to produce realistic exceptions.",
   "output_files": [
     "bill_of_material.csv",
     "edge_case_detection.json",
@@ -49,12 +50,21 @@
     "algorithm": "Weekly closing availability = opening + revised PO receipts + feasible production - forecast demand - BOM component consumption; closing balance rolls forward.",
     "mitigation_policy": "At most three feasible options per shortage, ranked by service impact then incremental cost. Supplier options require matching UOM, lead time <=7 days, minimum order quantity and remaining capacity. Ground truth is excluded from planner inputs.",
     "row_counts": {
-      "mitigations.csv": 1778,
+      "mitigations.csv": 211,
       "production_capacity_weekly.csv": 288,
-      "production_plan.csv": 3,
+      "production_plan.csv": 6,
       "projected_balance.csv": 1308,
-      "shortage_ranking.csv": 1050,
-      "shortages.csv": 1050
+      "shortage_ranking.csv": 147,
+      "shortages.csv": 147
+    },
+    "shortage_distribution": {
+      "mean_qty": 50.12,
+      "median_qty": 40.43,
+      "rate": 0.112385,
+      "top_causes": {
+        "Demand exceeds opening balance and scheduled arrivals": 141,
+        "Demand exceeds opening balance and scheduled arrivals; production constraint limits feasible BOM conversion": 6
+      }
     },
     "validation_file": "planner_validation.json"
   },

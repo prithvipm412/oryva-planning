@@ -12,13 +12,17 @@ Command: `python3 planner.py --data-dir data/starter` (seeded source dataset `20
 |---|---:|
 | projected_balance.csv | 1,308 |
 | production_capacity_weekly.csv | 288 |
-| production_plan.csv | 3 |
-| shortages.csv | 1,050 |
-| shortage_ranking.csv | 1,050 |
-| mitigations.csv | 1,778 |
+| production_plan.csv | 6 |
+| shortages.csv | 147 |
+| shortage_ranking.csv | 147 |
+| mitigations.csv | 211 |
 | ground_truth.csv | 5 |
 
-All planner validation checks passed. Of 1,050 shortages, 1,778 feasible options were retained (at most three per shortage); demand allocation provides a policy-feasible fallback. Sixty-eight rows cite a production constraint. See `planner_validation.json` for current checksums.
+All planner validation checks passed. Of 147 shortages, 211 feasible options were retained (at most three per shortage); demand allocation provides a policy-feasible fallback. Six rows cite a production constraint. See `planner_validation.json` for current checksums.
+
+## Starter shortage distribution after stock tuning
+
+With opening inventory seeded near one forecast horizon, the observed shortage rate is 147 / 1,308 = **11.24%**. Mean shortage quantity is **50.12** units and median is **40.43**. Cause counts: demand exceeds opening stock and scheduled arrivals, **141**; production constraint limits feasible BOM conversion, **6**. Demand spikes remain at 100 rows and constrained suppliers at 2; the generator remains fixed-seed.
 
 ## Full-scale source reproducibility
 

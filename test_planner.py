@@ -52,6 +52,12 @@ class StarterPlannerEvidence(unittest.TestCase):
             shortages = list(csv.DictReader(f))
         self.assertTrue(any("production constraint" in row["cause_summary"] for row in shortages))
 
+    def test_shortage_rate_is_in_target_band(self):
+        evidence = json.loads((STARTER / "planner_validation.json").read_text())
+        self.assertTrue(evidence["shortage_rate_in_target"])
+        self.assertGreaterEqual(evidence["shortage_distribution"]["rate"], 0.05)
+        self.assertLessEqual(evidence["shortage_distribution"]["rate"], 0.15)
+
     def test_repository_exports_are_under_50mb(self):
         for path in ROOT.rglob("*"):
             if ".git" in path.parts or not path.is_file():

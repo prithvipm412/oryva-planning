@@ -3,6 +3,7 @@ import argparse, csv, hashlib, json, sqlite3
 from collections import defaultdict
 from datetime import date, timedelta
 from pathlib import Path
+import statistics
 
 def csvout(path, rows):
     rows=list(rows)
@@ -104,7 +105,11 @@ def plan(root):
     counts['shortage_ranking.csv']=csvout(root/'shortage_ranking.csv',ranked)
     mitigation_counts=defaultdict(int)
     for option in mitigations: mitigation_counts[option['shortage_id']]+=1
-    checks={'balances_reconciled':all(abs(x['projected_available_qty']-(x['opening_qty']+x['inbound_qty']-x['demand_qty']+x['production_qty']-x['component_consumption_qty']))<.011 for x in balances),'production_within_weekly_capacity':all(p['planned_qty']<=p['capacity_qty']+.011 for p in production_plans),'bom_consumption_reconciles':all(abs(p['component_qty']-p['planned_qty']*next(b['qty'] for b in boms[p['sku_id']] if b['component']==p['component_sku_id']))<.011 for p in production_plans),'shortages_explainable':all(bool(x['cause_summary']) for x in shorts),'mitigation_tradeoffs_present':all(x['incremental_cost']>=0 and x['service_impact_qty']>=0 for x in mitigations),'mitigations_all_feasible':all(x['feasible']==1 for x in mitigations),'max_three_mitigations_per_shortage':max(mitigation_counts.values(),default=0)<=3,'ground_truth_excluded':True,'row_counts':counts}
+    causes=defaultdict(int)
+    for row in shorts: causes[row['cause_summary']]+=1
+    shortage_rate=len(shorts)/max(1,len(balances))
+    quantities=[x['shortage_qty'] for x in shorts]
+    checks={'balances_reconciled':all(abs(x['projected_available_qty']-(x['opening_qty']+x['inbound_qty']-x['demand_qty']+x['production_qty']-x['component_consumption_qty']))<.011 for x in balances),'production_within_weekly_capacity':all(p['planned_qty']<=p['capacity_qty']+.011 for p in production_plans),'bom_consumption_reconciles':all(abs(p['component_qty']-p['planned_qty']*next(b['qty'] for b in boms[p['sku_id']] if b['component']==p['component_sku_id']))<.011 for p in production_plans),'shortages_explainable':all(bool(x['cause_summary']) for x in shorts),'mitigation_tradeoffs_present':all(x['incremental_cost']>=0 and x['service_impact_qty']>=0 for x in mitigations),'mitigations_all_feasible':all(x['feasible']==1 for x in mitigations),'max_three_mitigations_per_shortage':max(mitigation_counts.values(),default=0)<=3,'shortage_rate_in_target':0.05<=shortage_rate<=0.15,'ground_truth_excluded':True,'shortage_distribution':{'rate':round(shortage_rate,6),'mean_qty':round(statistics.mean(quantities),2) if quantities else 0,'median_qty':round(statistics.median(quantities),2) if quantities else 0,'top_causes':dict(sorted(causes.items(),key=lambda x:(-x[1],x[0]))[:5])},'row_counts':counts}
     checks['sha256']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in root.glob('*.csv') if p.name!='ground_truth.csv'}
     (root/'planner_validation.json').write_text(json.dumps(checks,indent=2,sort_keys=True)+'\n')
     manifest_path=root/'source_manifest.json'
@@ -112,7 +117,7 @@ def plan(root):
         manifest=json.loads(manifest_path.read_text(encoding='utf-8'))
         manifest['output_files']=sorted(set(manifest.get('output_files',[]))|set(counts)|{'planner_validation.json'})
         manifest['output_files']=sorted(set(manifest.get('output_files',[]))|set(counts)|{'planner_validation.json'})
-        manifest['planner']={'algorithm':'Weekly closing availability = opening + revised PO receipts + feasible production - forecast demand - BOM component consumption; closing balance rolls forward.','mitigation_policy':'At most three feasible options per shortage, ranked by service impact then incremental cost. Supplier options require matching UOM, lead time <=7 days, minimum order quantity and remaining capacity. Ground truth is excluded from planner inputs.','row_counts':counts,'validation_file':'planner_validation.json'}
+        manifest['planner']={'algorithm':'Weekly closing availability = opening + revised PO receipts + feasible production - forecast demand - BOM component consumption; closing balance rolls forward.','mitigation_policy':'At most three feasible options per shortage, ranked by service impact then incremental cost. Supplier options require matching UOM, lead time <=7 days, minimum order quantity and remaining capacity. Ground truth is excluded from planner inputs.','row_counts':counts,'shortage_distribution':checks['shortage_distribution'],'validation_file':'planner_validation.json'}
         manifest_path.write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf-8')
     if not all(v for k,v in checks.items() if isinstance(v,bool)): raise SystemExit('planner validation failed')
     print(json.dumps(checks,indent=2))

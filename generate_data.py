@@ -409,7 +409,7 @@ def generate(args: argparse.Namespace) -> None:
     if any(not values for values in locs_by_sku.values()):
         raise AssertionError("Assortment rule left a SKU without a location")
     base_demand = {(sku_i, loc_i): round(rng.uniform(24, 100), 2) for sku_i, loc_i in assortment}
-    opening_stock = {(sku_i, loc_i): round(base_demand[(sku_i, loc_i)] * rng.uniform(1.5, 5.0), 2)
+    opening_stock = {(sku_i, loc_i): round(base_demand[(sku_i, loc_i)] * scale.weeks * rng.uniform(0.95, 1.05), 2)
                      for sku_i, loc_i in assortment}
 
     substitutes = []
@@ -666,6 +666,7 @@ def generate(args: argparse.Namespace) -> None:
         },
         "assortment_rule": "Include pair when (sku_index*7 + location_index*3) % 10 < 7, plus every factory location; zero-based indexes, stable SKU/location order.",
         "inbound_supply_rule": "Purchase-order-line quantity is the sole inbound supply source; inventory.inbound_qty is zero so Phase 3 counts it once.",
+        "opening_inventory_rule": "Seed opening stock near one forecast horizon of baseline demand (weeks * baseline * seeded 0.95-1.05 safety factor), retaining seeded forecast spikes and receipt variation to produce realistic exceptions.",
         "arrival_rule": "Promised date = order_date + matched effective lead_time_days. transport_delay.expected_delivery_date repeats the promise; revised_delivery_date adds a deterministic 0-6 day carrier delay.",
         "not_generated_in_phase_2": ["production_plan", "shortage", "mitigation_option", "issue_case", "ground_truth"],
         "output_files": sorted([*csv_counts.keys(), "edge_case_detection.json", "oryva.sqlite3", "source_manifest.json"]),
