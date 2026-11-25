@@ -1,11 +1,10 @@
 {
-  "all_five_cases_labeled": true,
   "balances_reconciled": true,
+  "ground_truth_excluded": true,
   "max_three_mitigations_per_shortage": true,
   "mitigation_tradeoffs_present": true,
   "mitigations_all_feasible": true,
   "row_counts": {
-    "ground_truth.csv": 5,
     "mitigations.csv": 1786,
     "projected_balance.csv": 1308,
     "shortage_ranking.csv": 1052,
@@ -13,9 +12,11 @@
   },
   "sha256": {
     "bill_of_material.csv": "64d63965b6254afa654ee1a21d2a1ef381d61ca33a54beda9c81d2c2ed9627a6",
+    "edge_case_injections.csv": "d271297dd1d27aaef75455a55bd468a72cdaf06e16e44f62d30c085269b56582",
     "forecast_demand.csv": "aaf233c7a1911a8ecec1a664748ed5f6931c51b4c77429962a977adf8e3c360f",
-    "ground_truth.csv": "73539b7eb9f3af3be3c12670a3e98908a1e0326ad5821b2a22ab012a2d344185",
     "inventory.csv": "64481109ac636e4db22f58adc31598259baf38cf17867fb93bf2db191d6dd740",
+    "issue_case.csv": "e8494e9c8238642a932721f345a71e24f4db182383c4e378b6126192711beeca",
+    "issue_case_record.csv": "5266d29ce6a8c803aa1f5dec558ee9037b5a11fa99edb9156b96b74eae39e667",
     "lead_time.csv": "34e23fbcb252561b6f0fb51c3cc1289926d39f1729901cb15c27e598362e638f",
     "lifecycle_history.csv": "927dbac8f8ed87b7ff6c3a783f7598747e993c5fc87eec27a709e077e6e1f7ff",
     "location.csv": "c63216bcde1c9e40bf0477f019160ba4d6d6885564c66995b2b550ab5a9a44f5",

@@ -1,0 +1,11 @@
+issue_case_record_id,issue_case_id,record_type,sku_id,location_id,demand_id,inventory_id,supplier_id,supplier_capacity_id,lead_time_id,purchase_order_id,purchase_order_line_id,production_plan_id,shortage_id,mitigation_option_id
+1,ISSUE-000001,INVENTORY,,,,INV-0000000001,,,,,,,,
+2,ISSUE-000001,PURCHASE_ORDER_LINE,,,,,,,,,POL-0000000001,,,
+3,ISSUE-000002,SKU,SKU-000001,,,,,,,,,,,
+4,ISSUE-000002,SKU,SKU-000003,,,,,,,,,,,
+5,ISSUE-000003,SUPPLIER_CAPACITY,,,,,,SCAP-0000000001,,,,,,
+6,ISSUE-000003,PURCHASE_ORDER_LINE,,,,,,,,,POL-0000000001,,,
+7,ISSUE-000004,FORECAST_DEMAND,,,DEM-SKU-000001-LOC-000001-2026W01,,,,,,,,,
+8,ISSUE-000004,SUPPLIER,,,,,SUP-000001,,,,,,,
+9,ISSUE-000005,PURCHASE_ORDER_LINE,,,,,,,,,POL-0000000001,,,
+10,ISSUE-000005,SKU,SKU-000001,,,,,,,,,,,

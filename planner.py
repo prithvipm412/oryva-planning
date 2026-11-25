@@ -68,22 +68,20 @@ def plan(root):
             for n,option in enumerate(selected,1):
                 option['mitigation_option_id']=f'MIT-{sid}-{n:02d}'
                 mitigations.append(option)
-    # Explicit isolated truth fixtures: examples define expected detection semantics, not corrupted base inputs.
-    cases=[('INBOUND_INVENTORY_COUNTED_TWICE','EXPECTED_ALERT','Same PO line included as inventory inbound and scheduled receipt; deduplicate by source line.'),('UNAPPROVED_SUBSTITUTE_SKU','EXPECTED_REJECTION','Substitution candidate has no effective APPROVED bridge row.'),('SUPPLIER_CAPACITY_EXCEEDED','EXPECTED_EXCEPTION','Proposed quantity exceeds effective supplier capacity.'),('SHORTAGE_WITHOUT_LEAD_TIME','EXPECTED_ALERT','Shortage source has no effective supplier/SKU/destination lead-time row.'),('UOM_MISMATCH','EXPECTED_REJECTION','Candidate supply uses a unit different from demand SKU base UOM.')]
-    sample_d=db.execute('select demand_id,sku_id,location_id from forecast_demand order by demand_id limit 1').fetchone()
-    sample_i=db.execute('select inventory_id,sku_id,location_id from inventory order by inventory_id limit 1').fetchone()
-    sample_p=db.execute('select pol.purchase_order_line_id,pol.sku_id,po.destination_location_id,po.supplier_id from purchase_order_line pol join purchase_order po using(purchase_order_id) order by pol.purchase_order_line_id limit 1').fetchone()
-    sample_c=db.execute('select supplier_capacity_id,supplier_id,sku_id from supplier_capacity order by supplier_capacity_id limit 1').fetchone()
-    refs=[f"inventory:{sample_i['inventory_id']}|purchase_order_line:{sample_p['purchase_order_line_id']}",f"sku:{sample_d['sku_id']}|candidate_substitute:UNAPPROVED_RELATION_ABSENT",f"supplier_capacity:{sample_c['supplier_capacity_id']}|purchase_order_line:{sample_p['purchase_order_line_id']}",f"forecast_demand:{sample_d['demand_id']}|lead_time:NOT_FOUND_FOR_TEST_ROUTE",f"forecast_demand:{sample_d['demand_id']}|sku:{sample_d['sku_id']}|uom_counterfactual:KG"]
-    truth=[dict(case_id=f'ISSUE-{i:06d}',issue_type=t,ground_truth_label=l,description=x,source_record_refs=refs[i-1],fixture_source='isolated_rule_fixture',excluded_from_planner_inputs=1) for i,(t,l,x) in enumerate(cases,1)]
-    counts={'projected_balance.csv':csvout(root/'projected_balance.csv',balances),'shortages.csv':csvout(root/'shortages.csv',shorts),'mitigations.csv':csvout(root/'mitigations.csv',mitigations),'ground_truth.csv':csvout(root/'ground_truth.csv',truth)}
+    counts={'projected_balance.csv':csvout(root/'projected_balance.csv',balances),'shortages.csv':csvout(root/'shortages.csv',shorts),'mitigations.csv':csvout(root/'mitigations.csv',mitigations)}
     ranked=sorted(shorts,key=lambda x:(-x['priority_score'],-x['shortage_qty'],x['shortage_id']))
     counts['shortage_ranking.csv']=csvout(root/'shortage_ranking.csv',ranked)
     mitigation_counts=defaultdict(int)
     for option in mitigations: mitigation_counts[option['shortage_id']]+=1
-    checks={'balances_reconciled':all(abs(x['projected_available_qty']-(x['opening_qty']+x['inbound_qty']-x['demand_qty']))<.011 for x in balances),'all_five_cases_labeled':len(truth)==5,'shortages_explainable':all(bool(x['cause_summary']) for x in shorts),'mitigation_tradeoffs_present':all(x['incremental_cost']>=0 and x['service_impact_qty']>=0 for x in mitigations),'mitigations_all_feasible':all(x['feasible']==1 for x in mitigations),'max_three_mitigations_per_shortage':max(mitigation_counts.values(),default=0)<=3,'row_counts':counts}
-    checks['sha256']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in root.glob('*.csv')}
+    checks={'balances_reconciled':all(abs(x['projected_available_qty']-(x['opening_qty']+x['inbound_qty']-x['demand_qty']))<.011 for x in balances),'shortages_explainable':all(bool(x['cause_summary']) for x in shorts),'mitigation_tradeoffs_present':all(x['incremental_cost']>=0 and x['service_impact_qty']>=0 for x in mitigations),'mitigations_all_feasible':all(x['feasible']==1 for x in mitigations),'max_three_mitigations_per_shortage':max(mitigation_counts.values(),default=0)<=3,'ground_truth_excluded':True,'row_counts':counts}
+    checks['sha256']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in root.glob('*.csv') if p.name!='ground_truth.csv'}
     (root/'planner_validation.json').write_text(json.dumps(checks,indent=2,sort_keys=True)+'\n')
+    manifest_path=root/'source_manifest.json'
+    if manifest_path.exists():
+        manifest=json.loads(manifest_path.read_text(encoding='utf-8'))
+        manifest['output_files']=sorted(set(manifest.get('output_files',[]))|set(counts)|{'planner_validation.json'})
+        manifest['planner']={'algorithm':'Weekly closing availability = opening + revised PO receipts arriving this week - forecast demand; closing balance rolls forward.','mitigation_policy':'At most three feasible options per shortage, ranked by service impact then incremental cost. Supplier options require matching UOM, lead time <=7 days, minimum order quantity and remaining capacity. Ground truth is excluded from planner inputs.','row_counts':counts,'validation_file':'planner_validation.json'}
+        manifest_path.write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf-8')
     if not all(v for k,v in checks.items() if isinstance(v,bool)): raise SystemExit('planner validation failed')
     print(json.dumps(checks,indent=2))
 

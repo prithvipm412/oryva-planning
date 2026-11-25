@@ -11,7 +11,7 @@ STARTER = ROOT / "data" / "starter"
 class StarterPlannerEvidence(unittest.TestCase):
     def test_validation_passed(self):
         evidence = json.loads((STARTER / "planner_validation.json").read_text())
-        for key in ("balances_reconciled", "all_five_cases_labeled", "shortages_explainable",
+        for key in ("balances_reconciled", "ground_truth_excluded", "shortages_explainable",
                     "mitigation_tradeoffs_present", "mitigations_all_feasible", "max_three_mitigations_per_shortage"):
             self.assertTrue(evidence[key], key)
 
@@ -30,7 +30,10 @@ class StarterPlannerEvidence(unittest.TestCase):
         expected = {"INBOUND_INVENTORY_COUNTED_TWICE", "UNAPPROVED_SUBSTITUTE_SKU",
                     "SUPPLIER_CAPACITY_EXCEEDED", "SHORTAGE_WITHOUT_LEAD_TIME", "UOM_MISMATCH"}
         self.assertEqual({row["issue_type"] for row in rows}, expected)
-        self.assertTrue(all(row["source_record_refs"] for row in rows))
+        self.assertTrue(all(row["affected_record_ids"] and row["expected_decision"] for row in rows))
+        detections = json.loads((STARTER / "edge_case_detection.json").read_text())
+        self.assertEqual(detections["detected_cases"], 5)
+        self.assertTrue(all(m["precision"] == 1.0 and m["recall"] == 1.0 for m in detections["per_issue"].values()))
 
     def test_source_manifest_is_synthetic_and_seeded(self):
         manifest = json.loads((STARTER / "source_manifest.json").read_text())

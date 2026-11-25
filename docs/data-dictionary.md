@@ -175,6 +175,10 @@ Shortage 1:N MitigationOption. Option resource links are optional and depend on 
 
 ## Supporting tables
 
+### `edge_case_injections.csv` and `ground_truth.csv`
+
+These synthetic scenario overlays reference real source rows and are excluded from planner features. `edge_case_injections.csv` carries the `issue_case_id`, `issue_type`, affected record IDs, and scenario-specific values used by the validator. `ground_truth.csv` contains `issue_case_id`, `issue_type`, `affected_record_ids`, `expected_decision`, and `ground_truth_label`; the planner never reads this file. `edge_case_detection.json` stores per-issue TP/FP/FN/TN counts and precision/recall.
+
 The following field tables enumerate every column of the supporting tables.
 
 ### `sku_substitute`

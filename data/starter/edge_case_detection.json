@@ -1,0 +1,46 @@
+{
+  "detected_cases": 5,
+  "ground_truth_cases": 5,
+  "per_issue": {
+    "INBOUND_INVENTORY_COUNTED_TWICE": {
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tn": 4,
+      "tp": 1
+    },
+    "SHORTAGE_WITHOUT_LEAD_TIME": {
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tn": 4,
+      "tp": 1
+    },
+    "SUPPLIER_CAPACITY_EXCEEDED": {
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tn": 4,
+      "tp": 1
+    },
+    "UNAPPROVED_SUBSTITUTE_SKU": {
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tn": 4,
+      "tp": 1
+    },
+    "UOM_MISMATCH": {
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tn": 4,
+      "tp": 1
+    }
+  }
+}

@@ -1,6 +1,6 @@
-case_id,issue_type,ground_truth_label,description,source_record_refs,fixture_source,excluded_from_planner_inputs
-ISSUE-000001,INBOUND_INVENTORY_COUNTED_TWICE,EXPECTED_ALERT,Same PO line included as inventory inbound and scheduled receipt; deduplicate by source line.,inventory:INV-0000000001|purchase_order_line:POL-0000000001,isolated_rule_fixture,1
-ISSUE-000002,UNAPPROVED_SUBSTITUTE_SKU,EXPECTED_REJECTION,Substitution candidate has no effective APPROVED bridge row.,sku:SKU-000001|candidate_substitute:UNAPPROVED_RELATION_ABSENT,isolated_rule_fixture,1
-ISSUE-000003,SUPPLIER_CAPACITY_EXCEEDED,EXPECTED_EXCEPTION,Proposed quantity exceeds effective supplier capacity.,supplier_capacity:SCAP-0000000001|purchase_order_line:POL-0000000001,isolated_rule_fixture,1
-ISSUE-000004,SHORTAGE_WITHOUT_LEAD_TIME,EXPECTED_ALERT,Shortage source has no effective supplier/SKU/destination lead-time row.,forecast_demand:DEM-SKU-000001-LOC-000001-2026W01|lead_time:NOT_FOUND_FOR_TEST_ROUTE,isolated_rule_fixture,1
-ISSUE-000005,UOM_MISMATCH,EXPECTED_REJECTION,Candidate supply uses a unit different from demand SKU base UOM.,forecast_demand:DEM-SKU-000001-LOC-000001-2026W01|sku:SKU-000001|uom_counterfactual:KG,isolated_rule_fixture,1
+issue_case_id,issue_type,affected_record_ids,expected_decision,ground_truth_label
+ISSUE-000001,INBOUND_INVENTORY_COUNTED_TWICE,inventory:INV-0000000001|purchase_order_line:POL-0000000001,DEDUPE_DUPLICATE_RECEIPT,EXPECTED_ALERT
+ISSUE-000002,UNAPPROVED_SUBSTITUTE_SKU,primary_sku:SKU-000001|substitute_sku:SKU-000003,REJECT_SUBSTITUTE,EXPECTED_REJECTION
+ISSUE-000003,SUPPLIER_CAPACITY_EXCEEDED,supplier_capacity:SCAP-0000000001|purchase_order_line:POL-0000000001,REJECT_OVER_CAPACITY,EXPECTED_EXCEPTION
+ISSUE-000004,SHORTAGE_WITHOUT_LEAD_TIME,forecast_demand:DEM-SKU-000001-LOC-000001-2026W01|supplier:SUP-000001,RAISE_MISSING_LEAD_TIME_ALERT,EXPECTED_ALERT
+ISSUE-000005,UOM_MISMATCH,purchase_order_line:POL-0000000001|sku:SKU-000001,REJECT_UOM_MISMATCH,EXPECTED_REJECTION

@@ -72,7 +72,7 @@ Run the planner after generating a dataset. It computes weekly projected balance
 python3 planner.py --data-dir data/starter
 ```
 
-Outputs are `projected_balance.csv`, `shortages.csv`, `shortage_ranking.csv`, `mitigations.csv`, `ground_truth.csv`, and `planner_validation.json`. The five required edge cases are separate rule fixtures in `ground_truth.csv`, excluded from baseline planner inputs; they document expected detection outcomes and traceability semantics. They are not represented as deliberately corrupted operational rows.
+Outputs are `projected_balance.csv`, `shortages.csv`, `shortage_ranking.csv`, `mitigations.csv`, and `planner_validation.json`. Generation also inserts five isolated, labeled anomaly cases into `issue_case` and `issue_case_record`, exports their scenario overlays in `edge_case_injections.csv`, and keeps expected outcomes in `ground_truth.csv`. The planner reads neither ground truth nor anomaly overlays.
 
 Only feasible mitigation options are exported, with no more than three per shortage. Options are ranked by lowest residual service impact, then incremental cost; supplier options require matching UOM, lead time of at most seven days, minimum order quantity, and remaining effective capacity. Demand allocation remains the no-capacity fallback and reports its service loss explicitly. Planner outputs plus source CSVs in `data/starter/` are kept below 50 MB each.
 

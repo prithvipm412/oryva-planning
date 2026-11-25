@@ -11,9 +11,9 @@ python3 db.py smoke
 python3 -m unittest -v
 ```
 
-Results: generator validation passed 40 checks; schema smoke passed all six checks; all five unit tests passed. The planner reconciled 1,308 weekly balances and generated 1,052 explainable shortages, 1,052 ranked shortage rows, 1,786 feasible mitigations (no more than three per shortage), and five separately stored labeled edge-case fixtures. All exported starter files are under 50 MB. Planner checksums and detailed booleans are saved in `data/starter/planner_validation.json`.
+Results: generator validation passed 41 checks; schema smoke passed all six checks; all five unit tests passed. The planner reconciled 1,308 weekly balances and generated 1,052 explainable shortages, 1,052 ranked shortage rows, and 1,786 feasible mitigations (no more than three per shortage). Generation inserted five issue cases linked to real SKU, inventory, PO line, capacity, demand, and supplier IDs. All five per-issue detectors matched ground truth: precision 1.0 and recall 1.0 for each, with TP=1, FP=0, FN=0, TN=4. Expected labels are separately exported in `data/starter/ground_truth.csv`; planner features and hashes exclude that file. All exported starter files are under 50 MB. Planner checksums are saved in `data/starter/planner_validation.json`; detector metrics are in `data/starter/edge_case_detection.json`.
 
-The edge fixtures point to relevant source IDs, but they describe isolated expected-rule cases rather than corrupting baseline rows. Automated fixture-specific detectors and issue links in SQLite are not implemented. See `docs/phase3-planning.md` for this and the production/BOM modeling limits.
+Anomaly values live in explicit scenario overlay records so the base operational rows remain valid and unrelated rows stay untouched. Each injection has `issue_type` and source links in SQLite and CSV. See `docs/phase3-planning.md` for production/BOM modeling limits.
 
 ## Full-scale planner run
 

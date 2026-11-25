@@ -1,0 +1,6 @@
+issue_case_id,issue_type,inventory_id,purchase_order_line_id,duplicate_inbound_qty,scheduled_receipt_qty,primary_sku_id,substitute_sku_id,approval_state,supplier_capacity_id,scenario_qty,capacity_qty,uom,demand_id,supplier_id,sku_id,location_id,week_start,scenario_uom,base_uom
+ISSUE-000001,INBOUND_INVENTORY_COUNTED_TWICE,INV-0000000001,POL-0000000001,102.0,102.0,,,,,,,,,,,,,,
+ISSUE-000002,UNAPPROVED_SUBSTITUTE_SKU,,,,,SKU-000001,SKU-000003,NOT_APPROVED,,,,,,,,,,,
+ISSUE-000003,SUPPLIER_CAPACITY_EXCEEDED,,POL-0000000001,,,,,,SCAP-0000000001,108.0,107.0,EA,,,,,,,
+ISSUE-000004,SHORTAGE_WITHOUT_LEAD_TIME,,,,,,,,,,,,DEM-SKU-000001-LOC-000001-2026W01,SUP-000001,SKU-000001,LOC-000001,2025-12-29,,
+ISSUE-000005,UOM_MISMATCH,,POL-0000000001,,,,,,,,,,,,SKU-000001,,,CS,EA
