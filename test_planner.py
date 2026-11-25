@@ -41,6 +41,17 @@ class StarterPlannerEvidence(unittest.TestCase):
         self.assertEqual(manifest["source"]["type"], "synthetic")
         self.assertEqual(manifest["source"]["external_sources"], [])
 
+    def test_production_respects_capacity_and_bom(self):
+        evidence = json.loads((STARTER / "planner_validation.json").read_text())
+        self.assertTrue(evidence["production_within_weekly_capacity"])
+        self.assertTrue(evidence["bom_consumption_reconciles"])
+        with (STARTER / "production_plan.csv").open(newline="") as f:
+            plans = list(csv.DictReader(f))
+        self.assertTrue(plans)
+        with (STARTER / "shortages.csv").open(newline="") as f:
+            shortages = list(csv.DictReader(f))
+        self.assertTrue(any("production constraint" in row["cause_summary"] for row in shortages))
+
     def test_repository_exports_are_under_50mb(self):
         for path in ROOT.rglob("*"):
             if ".git" in path.parts or not path.is_file():

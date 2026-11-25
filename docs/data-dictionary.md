@@ -300,6 +300,13 @@ The table CHECK requires exactly one entity FK matching entity_type. Each event 
 
 Exactly one entity FK must be set and match record_type. An expression unique index rejects duplicate case/record links. IssueCase-to-source-record is N:M through this bridge.
 
+## Derived planner exports
+
+- `production_capacity_weekly.csv`: SKU, location, week, equal-share weekly capacity derived from the annual capacity source, UOM, and source capacity ID.
+- `production_plan.csv`: planned SKU/location/week quantity, UOM, component SKU and consumed quantity/UOM, capacity source and cap, demand ID, and plan status. Each plan is bounded by weekly capacity and available component stock.
+- `projected_balance.csv`: opening, inbound, demand, production, component consumption, and closing available quantities per SKU/location/week.
+- `ground_truth.csv` remains a separate label export. `planner.py` does not read it.
+
 ## Cardinality and optional relationships
 
 - SKU 1:N ForecastDemand, Inventory, SupplierCapacity, LeadTime, ProductionCapacity, ProductionPlan, Shortage, PurchaseOrderLine, and BOM parent/component rows.

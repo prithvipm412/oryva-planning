@@ -2,7 +2,7 @@
 
 ## Planner
 
-`planner.py` calculates weekly closing projected availability as opening balance plus PO lines arriving during that ISO week minus forecast demand. Closing balance rolls into the next week. Each shortage links to its demand ID, SKU, location, date and unit, and includes a cause summary. Ranking is descending shortage share, then shortage quantity, with stable IDs as tie breakers. Mitigations report cost, residual service impact, lead-time/capacity feasibility and rationale.
+`planner.py` calculates weekly closing projected availability as opening balance plus PO lines arriving during that ISO week plus feasible production minus demand and BOM component consumption. Closing balance rolls into the next week. Annual production capacity is allocated evenly across forecast weeks. Production is limited by parent SKU capacity and available component inventory. Each shortage links to its demand ID, SKU, location, date and unit, and includes a cause summary. Ranking is descending shortage share, then shortage quantity, with stable IDs as tie breakers. Mitigations report cost, residual service impact, lead-time/capacity feasibility and rationale.
 
 ## Starter run evidence
 
@@ -11,12 +11,14 @@ Command: `python3 planner.py --data-dir data/starter` (seeded source dataset `20
 | Output | Data rows |
 |---|---:|
 | projected_balance.csv | 1,308 |
-| shortages.csv | 1,052 |
-| shortage_ranking.csv | 1,052 |
-| mitigations.csv | 3,156 |
+| production_capacity_weekly.csv | 288 |
+| production_plan.csv | 3 |
+| shortages.csv | 1,050 |
+| shortage_ranking.csv | 1,050 |
+| mitigations.csv | 1,778 |
 | ground_truth.csv | 5 |
 
-All planner validation checks passed. Of 1,052 shortages, 1,786 feasible options were retained (at most three per shortage); demand allocation provides a policy-feasible fallback. Starter output SHA-256: projected balance `131eb831b261772e71dd04b5b8c215a81a1e78700da230e45b9e7ca4315acdea`; shortages `1479fd69b8ee8cfc0f98777d1eb8e35e7a4877fa64521f29af6d339855c4c828`; ranking `cdd84d6d595bef19664d49d568e499ef4841792060280195b9b0c5f579da8b0b`; capped mitigations `7bb3445258a29d613ebdebde3dc835361298a167abf72f0f19a9a70b8cf69cae`; ground truth with source references `73539b7eb9f3af3be3c12670a3e98908a1e0326ad5821b2a22ab012a2d344185`.
+All planner validation checks passed. Of 1,050 shortages, 1,778 feasible options were retained (at most three per shortage); demand allocation provides a policy-feasible fallback. Sixty-eight rows cite a production constraint. See `planner_validation.json` for current checksums.
 
 ## Full-scale source reproducibility
 

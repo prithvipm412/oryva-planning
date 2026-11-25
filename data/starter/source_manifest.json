@@ -30,6 +30,8 @@
     "oryva.sqlite3",
     "planner_validation.json",
     "production_capacity.csv",
+    "production_capacity_weekly.csv",
+    "production_plan.csv",
     "projected_balance.csv",
     "purchase_order.csv",
     "purchase_order_line.csv",
@@ -44,13 +46,15 @@
     "transport_delay.csv"
   ],
   "planner": {
-    "algorithm": "Weekly closing availability = opening + revised PO receipts arriving this week - forecast demand; closing balance rolls forward.",
+    "algorithm": "Weekly closing availability = opening + revised PO receipts + feasible production - forecast demand - BOM component consumption; closing balance rolls forward.",
     "mitigation_policy": "At most three feasible options per shortage, ranked by service impact then incremental cost. Supplier options require matching UOM, lead time <=7 days, minimum order quantity and remaining capacity. Ground truth is excluded from planner inputs.",
     "row_counts": {
-      "mitigations.csv": 1786,
+      "mitigations.csv": 1778,
+      "production_capacity_weekly.csv": 288,
+      "production_plan.csv": 3,
       "projected_balance.csv": 1308,
-      "shortage_ranking.csv": 1052,
-      "shortages.csv": 1052
+      "shortage_ranking.csv": 1050,
+      "shortages.csv": 1050
     },
     "validation_file": "planner_validation.json"
   },
