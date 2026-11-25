@@ -17,7 +17,7 @@ Anomaly values live in explicit scenario overlay records so the base operational
 
 ## Full-scale generation after stock tuning
 
-Two full generator runs completed in under six minutes each and passed source validation. `generate_data.py compare` matched all 22 generated outputs, including the SQLite DB, source manifest, issue fixtures, all CSV row counts, and SHA-256. See `docs/reproducibility.md`. `docs/full_planner_validation.json` is historical and predates the production and stock-tuning changes; no full planner run was done after those changes.
+Two full generator runs completed in under six minutes each and passed source validation. `generate_data.py compare` matched all 22 generated outputs, including the SQLite DB, source manifest, issue fixtures, all CSV row counts, and SHA-256. See `docs/reproducibility.md`. The regenerated full dataset was then planned once: 6,021,600 balances reconciled; 602,173 shortages (10.0002%, mean 184.16, median 150.22); 998,008 feasible mitigations, at most three per shortage. All full planner checks passed; see `docs/full_planner_validation.json`.
 
 ## Phase 1 database validation record
 

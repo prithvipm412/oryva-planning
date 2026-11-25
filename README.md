@@ -137,6 +137,9 @@ See [`docs/reproducibility.md`](docs/reproducibility.md) for the full run row co
 | Five anomaly detectors | Precision 1.00 and recall 1.00 for each |
 | Schema smoke checks | All passed |
 | Unit tests | 7 passed |
+| Full-scale planner balances | 6,021,600 / 6,021,600 reconciled |
+| Full-scale shortages | 602,173 / 6,021,600 rows (10.0002%); mean 184.16, median 150.22 units |
+| Full-scale mitigations | 998,008 feasible; maximum 3 per shortage |
 | Committed output size | Every file below 50 MB |
 
 ## Edge-case detection
@@ -160,10 +163,9 @@ The scenario overlays link to source records in `issue_case_record.csv`; expecte
 
 ## Known limitations
 
-- Full-scale generation was reproduced after stock tuning, but full-scale planning was not rerun after production and inventory changes; `docs/full_planner_validation.json` is historical.
+- Full-scale planner outputs were validated once on the regenerated seed 20261022 dataset; full planner output reproducibility was not compared.
 - The five anomaly detectors run against labeled scenario overlays linked to valid source records. They do not mutate baseline facts or test broad production anomaly streams.
 - Production capacity is divided evenly across forecast weeks. Production plans are exported as CSV; planner execution does not persist plans into the SQLite lifecycle table.
-- Full planner output reproducibility was not compared; starter planner outputs were.
 - GitHub publishing and assignment form submission remain manual.
 
 ## Phase 2 files and outputs

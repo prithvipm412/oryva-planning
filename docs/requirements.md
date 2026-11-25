@@ -1,10 +1,10 @@
 # Requirements and phase map
 
-Status updated 2026-11-25. Schema, starter generation and planning deliverables are implemented locally. Full-scale source reproducibility passed; only full-scale planner comparison and issue-detector execution remain incomplete. GitHub publishing and form submission are user-owned final steps.
+Status updated 2026-11-25. Schema, starter generation and planning deliverables are implemented locally. Full-scale source reproducibility passed; full-scale planning and issue-detector execution are complete; full planner reproducibility comparison remains incomplete. GitHub publishing and form submission are user-owned final steps.
 
 | Brief requirement | Intended phase | Evidence of completion |
 |---|---:|---|
-| Match forecast demand to inventory, supplier capacity, lead times, production constraints; prioritize shortages | 3 | Starter planner, balance/shortage exports and prioritized rankings; production/BOM planning remains a gap |
+| Match forecast demand to inventory, supplier capacity, lead times, production constraints; prioritize shortages | 3 | Starter planner, balance/shortage exports and prioritized rankings; BOM and production-capacity planning are included |
 | Expose decisions/exceptions, traceability, measurable outputs | 3 | Causes, ranked shortages, trade-off options, source references and validation JSON |
 | Master data: SKU, Location, ForecastDemand, Inventory, Supplier | 2 | Deterministic generator, exported files, FK validation |
 | Dependent transaction/event records use valid parent IDs | 2 | Generator dependency ordering and validation report |
@@ -37,4 +37,4 @@ Status updated 2026-11-25. Schema, starter generation and planning deliverables 
 
 ## Remaining limits
 
-Mitigation options are recommendations, not executed orders. The planner does not model production capacity/BOM, dedicated issue-case detectors, or persisted issue links. Full source CSVs were compared, but full planner outputs were not compared. No dashboard was prioritized. Publishing and the submission form remain for the user.
+Mitigation options are recommendations, not executed orders. Full planner outputs were validated once but not compared across repeated planner runs. No dashboard was prioritized. Publishing and the submission form remain for the user.

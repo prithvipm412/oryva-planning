@@ -46,10 +46,10 @@ This 15-CSV comparison predates Step 1 anomalies and Step 3 stock tuning. The su
 | supplier_capacity.csv | 6,000 | `6faac1c75a7d07898e1e8c7fab43dc9eb90527fde955af45db283f1861b2ebc4` |
 | transport_delay.csv | 10,000 | `5acf8abe7b1e8906314d2d9a72494868b05d9ba2b7458ab375525fd83e55e549` |
 
-The earlier uncapped planner was stopped when the mitigation export reached 17.2 million rows. Its capped predecessor output in `docs/full_planner_validation.json` is historical and predates production planning and stock tuning. No full planner was run after the latest changes; the starter planner is the acceptance output.
+An earlier uncapped planner attempt was stopped after its mitigation export grew to 17.2 million rows. The current capped full-scale run completed successfully; its current metrics and checksums are recorded in `docs/full_planner_validation.json`.
 
 ## Edge-case coverage and limits
 
 `ground_truth.csv` is separate from baseline features and contains one row for each required class: duplicate inbound counting, unapproved substitute, supplier capacity exceeded, shortage without lead time, and UOM mismatch. `edge_case_injections.csv` records scenario overlays and affected record IDs; the SQLite `issue_case` and `issue_case_record` tables link cases to source records. All five detectors report TP=1, FP=0, FN=0, TN=4 (precision/recall 1.0) on these five isolated fixtures. The base operational facts remain valid; injected values are scenario overlays rather than silent mutations of source rows.
 
-The current balance planner uses receipts by actual revised arrival date and opening stock only; it does not consume production capacity/BOM into production plans. Mitigation options are recommendations with modeled policy checks, not committed purchase orders or production. Re-run planner after changes before relying on recorded hashes.
+Mitigation options are recommendations with modeled policy checks, not committed purchase orders or production. Full planner outputs were validated once and were not compared across repeated planner runs.
