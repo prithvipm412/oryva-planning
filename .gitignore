@@ -10,3 +10,16 @@ __pycache__/
 *.sqlite
 *.sqlite3
 *.db
+
+# Full-scale generated output is reproducible and stays outside GitHub.
+/data/full/
+/data/*full*/
+/data/oryva-full*/
+/full/
+/full_*/
+*.full.csv
+
+# Prevent accidental submission of large local artifacts; repository tests also
+# enforce a 50 MB cap because .gitignore cannot express a size predicate.
+/data/**/*.sqlite3
+/data/**/*.db

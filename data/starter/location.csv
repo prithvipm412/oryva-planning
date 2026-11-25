@@ -1,0 +1,7 @@
+location_id,name,location_type,country_code,timezone,lifecycle_state,created_at
+LOC-000001,Distribution Center 001,DISTRIBUTION_CENTER,US,America/Chicago,ACTIVE,2026-11-24T00:00:00.000Z
+LOC-000002,Factory 002,FACTORY,US,America/Detroit,ACTIVE,2026-11-24T00:00:00.000Z
+LOC-000003,Warehouse 003,WAREHOUSE,US,America/Los_Angeles,ACTIVE,2026-11-24T00:00:00.000Z
+LOC-000004,Store 004,STORE,CA,America/Toronto,ACTIVE,2026-11-24T00:00:00.000Z
+LOC-000005,Store 005,STORE,MX,America/Mexico_City,ACTIVE,2026-11-24T00:00:00.000Z
+LOC-000006,Warehouse 006,WAREHOUSE,US,America/New_York,ACTIVE,2026-11-24T00:00:00.000Z

@@ -1,0 +1,25 @@
+sku_id,name,description,base_uom,lifecycle_state,created_at
+SKU-000001,Hydration Product 00001,"Synthetic hydration item, segment 1",EA,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000002,Home Care Product 00002,"Synthetic home care item, segment 2",EA,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000003,Pantry Product 00003,"Synthetic pantry item, segment 3",EA,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000004,Personal Care Product 00004,"Synthetic personal care item, segment 4",EA,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000005,Outdoor Product 00005,"Synthetic outdoor item, segment 5",EA,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000006,Electronics Product 00006,"Synthetic electronics item, segment 6",EA,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000007,Hydration Product 00007,"Synthetic hydration item, segment 7",CS,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000008,Home Care Product 00008,"Synthetic home care item, segment 8",CS,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000009,Pantry Product 00009,"Synthetic pantry item, segment 1",CS,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000010,Personal Care Product 00010,"Synthetic personal care item, segment 2",CS,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000011,Outdoor Product 00011,"Synthetic outdoor item, segment 3",CS,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000012,Electronics Product 00012,"Synthetic electronics item, segment 4",CS,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000013,Hydration Product 00013,"Synthetic hydration item, segment 5",KG,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000014,Home Care Product 00014,"Synthetic home care item, segment 6",KG,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000015,Pantry Product 00015,"Synthetic pantry item, segment 7",KG,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000016,Personal Care Product 00016,"Synthetic personal care item, segment 8",KG,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000017,Outdoor Product 00017,"Synthetic outdoor item, segment 1",KG,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000018,Electronics Product 00018,"Synthetic electronics item, segment 2",KG,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000019,Hydration Product 00019,"Synthetic hydration item, segment 3",EA,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000020,Home Care Product 00020,"Synthetic home care item, segment 4",EA,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000021,Pantry Product 00021,"Synthetic pantry item, segment 5",EA,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000022,Personal Care Product 00022,"Synthetic personal care item, segment 6",EA,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000023,Outdoor Product 00023,"Synthetic outdoor item, segment 7",EA,ACTIVE,2026-11-24T00:00:00.000Z
+SKU-000024,Electronics Product 00024,"Synthetic electronics item, segment 8",EA,ACTIVE,2026-11-24T00:00:00.000Z

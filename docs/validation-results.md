@@ -1,4 +1,21 @@
-# Phase 1 database validation record
+# Validation summary
+
+## Starter source and planner validation (2026-11-25)
+
+Commands run:
+
+```bash
+python3 generate_data.py validate --out-dir data/starter
+python3 planner.py --data-dir data/starter
+python3 db.py smoke
+python3 -m unittest -v
+```
+
+Results: generator validation passed 40 checks; schema smoke passed all six checks; all four unit tests passed. The planner reconciled 1,308 weekly balances and generated 1,052 explainable shortages, 1,052 ranked shortage rows, 1,786 feasible mitigations (no more than three per shortage), and five separately stored labeled edge-case fixtures. All exported starter files are under 50 MB. Planner checksums and detailed booleans are saved in `data/starter/planner_validation.json`.
+
+The edge fixtures point to relevant source IDs, but they describe isolated expected-rule cases rather than corrupting baseline rows. Automated fixture-specific detectors and issue links in SQLite are not implemented. See `docs/phase3-planning.md` for this and the production/BOM modeling limits.
+
+## Phase 1 database validation record
 
 Recorded locally on 2026-11-24 (macOS environment), after initializing `data/oryva_phase1_fresh.sqlite3` from `schema.sql`.
 
@@ -14,7 +31,7 @@ The same commands work inside the documented `.venv` after activation. The proje
 ## Actual results
 
 ```text
-Initialized fresh database: /Users/prithvim/Documents/oryva-planning/data/oryva_phase1.sqlite3
+Initialized fresh database: /Users/prithvim/Documents/oryva-planning/data/oryva_phase1_fresh.sqlite3
 PASS duplicate primary key rejected
 PASS invalid enum rejected
 PASS invalid calendar date rejected

@@ -1,0 +1,37 @@
+transport_delay_id,purchase_order_id,purchase_order_line_id,carrier_name,expected_delivery_date,revised_delivery_date,reason
+TD-0000000001,PO-2026-000001,POL-0000000001,Northstar Freight,2026-01-25,2026-01-26,Carrier delay of 1 day(s)
+TD-0000000002,PO-2026-000002,POL-0000000002,Blue River Logistics,2026-03-21,2026-03-21,No carrier delay recorded
+TD-0000000003,PO-2026-000003,POL-0000000003,Pioneer Transit,2026-01-23,2026-01-23,No carrier delay recorded
+TD-0000000004,PO-2026-000004,POL-0000000004,Northstar Freight,2026-03-18,2026-03-18,No carrier delay recorded
+TD-0000000005,PO-2026-000005,POL-0000000005,Blue River Logistics,2026-02-11,2026-02-11,No carrier delay recorded
+TD-0000000006,PO-2026-000006,POL-0000000006,Pioneer Transit,2026-04-01,2026-04-01,No carrier delay recorded
+TD-0000000007,PO-2026-000007,POL-0000000007,Northstar Freight,2026-02-15,2026-02-16,Carrier delay of 1 day(s)
+TD-0000000008,PO-2026-000008,POL-0000000008,Blue River Logistics,2026-01-10,2026-01-12,Carrier delay of 2 day(s)
+TD-0000000009,PO-2026-000009,POL-0000000009,Pioneer Transit,2026-03-15,2026-03-15,No carrier delay recorded
+TD-0000000010,PO-2026-000010,POL-0000000010,Northstar Freight,2026-02-01,2026-02-01,No carrier delay recorded
+TD-0000000011,PO-2026-000011,POL-0000000011,Blue River Logistics,2026-04-01,2026-04-01,No carrier delay recorded
+TD-0000000012,PO-2026-000012,POL-0000000012,Pioneer Transit,2026-02-16,2026-02-16,No carrier delay recorded
+TD-0000000013,PO-2026-000013,POL-0000000013,Northstar Freight,2026-01-26,2026-01-26,No carrier delay recorded
+TD-0000000014,PO-2026-000014,POL-0000000014,Blue River Logistics,2026-03-16,2026-03-18,Carrier delay of 2 day(s)
+TD-0000000015,PO-2026-000015,POL-0000000015,Pioneer Transit,2026-01-31,2026-02-03,Carrier delay of 3 day(s)
+TD-0000000016,PO-2026-000016,POL-0000000016,Northstar Freight,2026-03-14,2026-03-14,No carrier delay recorded
+TD-0000000017,PO-2026-000017,POL-0000000017,Blue River Logistics,2026-02-06,2026-02-06,No carrier delay recorded
+TD-0000000018,PO-2026-000018,POL-0000000018,Pioneer Transit,2026-04-02,2026-04-02,No carrier delay recorded
+TD-0000000019,PO-2026-000019,POL-0000000019,Northstar Freight,2026-02-16,2026-02-16,No carrier delay recorded
+TD-0000000020,PO-2026-000020,POL-0000000020,Blue River Logistics,2026-01-19,2026-01-19,No carrier delay recorded
+TD-0000000021,PO-2026-000021,POL-0000000021,Pioneer Transit,2026-03-13,2026-03-16,Carrier delay of 3 day(s)
+TD-0000000022,PO-2026-000022,POL-0000000022,Northstar Freight,2026-01-30,2026-02-03,Carrier delay of 4 day(s)
+TD-0000000023,PO-2026-000023,POL-0000000023,Blue River Logistics,2026-03-28,2026-03-28,No carrier delay recorded
+TD-0000000024,PO-2026-000024,POL-0000000024,Pioneer Transit,2026-02-15,2026-02-15,No carrier delay recorded
+TD-0000000025,PO-2026-000025,POL-0000000025,Northstar Freight,2026-01-16,2026-01-16,No carrier delay recorded
+TD-0000000026,PO-2026-000026,POL-0000000026,Blue River Logistics,2026-03-01,2026-03-01,No carrier delay recorded
+TD-0000000027,PO-2026-000027,POL-0000000027,Pioneer Transit,2026-01-23,2026-01-23,No carrier delay recorded
+TD-0000000028,PO-2026-000028,POL-0000000028,Northstar Freight,2026-03-17,2026-03-21,Carrier delay of 4 day(s)
+TD-0000000029,PO-2026-000029,POL-0000000029,Blue River Logistics,2026-01-31,2026-02-05,Carrier delay of 5 day(s)
+TD-0000000030,PO-2026-000030,POL-0000000030,Pioneer Transit,2026-04-09,2026-04-09,No carrier delay recorded
+TD-0000000031,PO-2026-000031,POL-0000000031,Northstar Freight,2026-02-21,2026-02-21,No carrier delay recorded
+TD-0000000032,PO-2026-000032,POL-0000000032,Blue River Logistics,2026-01-27,2026-01-27,No carrier delay recorded
+TD-0000000033,PO-2026-000033,POL-0000000033,Pioneer Transit,2026-03-09,2026-03-09,No carrier delay recorded
+TD-0000000034,PO-2026-000034,POL-0000000034,Northstar Freight,2026-01-31,2026-01-31,No carrier delay recorded
+TD-0000000035,PO-2026-000035,POL-0000000035,Blue River Logistics,2026-03-16,2026-03-21,Carrier delay of 5 day(s)
+TD-0000000036,PO-2026-000036,POL-0000000036,Pioneer Transit,2026-02-08,2026-02-14,Carrier delay of 6 day(s)
