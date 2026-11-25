@@ -46,23 +46,32 @@ The starter preset is 24 SKUs, 6 locations, 12 demand weeks, 12 suppliers, and 3
 python3 generate_data.py generate --preset starter --seed 20261022 --out-dir /private/tmp/oryva-starter-generated
 ```
 
-This writes a SQLite database, 15 canonical CSV files, and `source_manifest.json` under the chosen empty output directory. The committed, planned starter dataset is in `data/starter/`. The generator validates foreign keys, primary-key duplicates, ISO week/date alignment, UOM consistency, date order, lead-time-derived arrival dates, capacity/minimum quantities, and PO lifecycle history. Revalidate an existing output with:
+This writes a SQLite database, 19 source CSV files, edge-case detection JSON, and `source_manifest.json` under the chosen empty output directory. The committed, planned starter dataset is in `data/starter/`. The generator validates foreign keys, primary-key duplicates, ISO week/date alignment, UOM consistency, date order, lead-time-derived arrival dates, capacity/minimum quantities, PO lifecycle history, and injected-case detector metrics. Revalidate an existing output with:
 
 ```bash
-python generate_data.py validate --out-dir data/starter
+python3 generate_data.py validate --out-dir data/starter
 ```
 
-The shared full preset is defined for later use at 3,000 SKUs, 50 locations, 52 demand weeks, 500 suppliers, and 10,000 inbound purchase orders. It was not run in Phase 2. Scale can be adjusted with `--skus`, `--locations`, `--weeks`, `--suppliers`, and `--orders` while using the same generator.
+| Preset | SKUs | Locations | Weeks | Suppliers | POs |
+|---|---:|---:|---:|---:|---:|
+| starter | 24 | 6 | 12 | 12 | 36 |
+| full | 3,000 | 50 | 52 | 500 | 10,000 |
+
+Scale can be adjusted with `--skus`, `--locations`, `--weeks`, `--suppliers`, and `--orders` while using the same generator.
 
 To reproduce the starter data, choose two new, empty directories and run:
 
 ```bash
-python generate_data.py generate --preset starter --seed 20261022 --out-dir /private/tmp/oryva-starter-run-1
-python generate_data.py generate --preset starter --seed 20261022 --out-dir /private/tmp/oryva-starter-run-2
-python generate_data.py compare --left /private/tmp/oryva-starter-run-1 --right /private/tmp/oryva-starter-run-2
+python3 generate_data.py generate --preset starter --seed 20261022 --out-dir /private/tmp/oryva-starter-run-1
+python3 generate_data.py generate --preset starter --seed 20261022 --out-dir /private/tmp/oryva-starter-run-2
+python planner.py --data-dir /private/tmp/oryva-starter-run-1
+python planner.py --data-dir /private/tmp/oryva-starter-run-2
+python generate_data.py validate --out-dir /private/tmp/oryva-starter-run-1
+python generate_data.py validate --out-dir /private/tmp/oryva-starter-run-2
+python3 generate_data.py compare --left /private/tmp/oryva-starter-run-1 --right /private/tmp/oryva-starter-run-2
 ```
 
-The compare command checks row counts and SHA-256 for every canonical CSV. Actual Phase 2 commands and checksums are recorded in `docs/phase2-data.md`.
+The compare command checks row counts for CSVs and SQLite tables, and SHA-256 for every output file, including CSVs, JSON, SQLite, and manifests. Current results are in `docs/reproducibility.md`.
 
 ## Plan shortages and mitigations
 
@@ -87,17 +96,75 @@ python3 -m unittest -v
 
 ## Full fixed-seed reproducibility run
 
-Generate two full-scale source datasets in separate clean directories, compare every canonical input CSV by row count and SHA-256, and plan each run:
+Generate two full-scale source datasets in separate clean directories and compare every generated file by row count and SHA-256:
 
 ```bash
-python3 generate_data.py generate --preset full --seed 20261022 --out-dir /private/tmp/oryva-full-run1
-python3 generate_data.py generate --preset full --seed 20261022 --out-dir /private/tmp/oryva-full-run2
-python3 generate_data.py compare --left /private/tmp/oryva-full-run1 --right /private/tmp/oryva-full-run2
+python3 generate_data.py generate --preset full --seed 20261022 --out-dir /private/tmp/oryva-full-tuned1
+python3 generate_data.py generate --preset full --seed 20261022 --out-dir /private/tmp/oryva-full-tuned2
+python3 generate_data.py compare --left /private/tmp/oryva-full-tuned1 --right /private/tmp/oryva-full-tuned2
 ```
 
 The complete run results and any remaining limitations are recorded in `docs/phase3-planning.md`.
 
 See [`docs/reproducibility.md`](docs/reproducibility.md) for the full run row counts and checksums, and [`docs/validation-results.md`](docs/validation-results.md) for actual starter validation results.
+
+## Entity and ERD summary
+
+`schema.sql` defines the relational model and foreign keys. Main links:
+
+| Relationship | Cardinality | Implementation |
+|---|---|---|
+| SKU → forecast, inventory, capacity, lead time, PO lines, plans, shortages | 1:N | SKU foreign keys |
+| Location → forecast, inventory, lead-time destination, production, PO destination, shortages | 1:N | Location foreign keys |
+| Supplier → capacity, lead time, purchase orders | 1:N | Supplier foreign keys |
+| PurchaseOrder → lines and arrival events | 1:N | `purchase_order_line`, `transport_delay` |
+| SKU ↔ substitute SKU | N:M | Effective-dated `sku_substitute` bridge |
+| Parent SKU ↔ component SKU | N:M | Effective-dated `bill_of_material` bridge |
+| Shortage → mitigation options | 1:N | `mitigation_option` |
+| Issue case ↔ affected source records | N:M | `issue_case_record` bridge |
+
+`lifecycle_history` stores state changes as events. Optional route origins, substitute effectivity, and mitigation resource links are documented in [`docs/data-dictionary.md`](docs/data-dictionary.md).
+
+## Validation results
+
+| Check | Result |
+|---|---:|
+| Generator validation metrics | 41 passed |
+| Planner balances reconciled | 1,308 / 1,308 |
+| Starter shortages | 147 / 1,308 demand rows (11.24%) |
+| Production plans | 6; weekly capacity rows: 288 |
+| Mitigation options | 211 feasible; maximum 3 per shortage |
+| Five anomaly detectors | Precision 1.00 and recall 1.00 for each |
+| Schema smoke checks | All passed |
+| Unit tests | 7 passed |
+| Committed output size | Every file below 50 MB |
+
+## Edge-case detection
+
+| `issue_type` | Expected decision | Precision | Recall |
+|---|---|---:|---:|
+| INBOUND_INVENTORY_COUNTED_TWICE | DEDUPE_DUPLICATE_RECEIPT | 1.00 | 1.00 |
+| UNAPPROVED_SUBSTITUTE_SKU | REJECT_SUBSTITUTE | 1.00 | 1.00 |
+| SUPPLIER_CAPACITY_EXCEEDED | REJECT_OVER_CAPACITY | 1.00 | 1.00 |
+| SHORTAGE_WITHOUT_LEAD_TIME | RAISE_MISSING_LEAD_TIME_ALERT | 1.00 | 1.00 |
+| UOM_MISMATCH | REJECT_UOM_MISMATCH | 1.00 | 1.00 |
+
+The scenario overlays link to source records in `issue_case_record.csv`; expected labels are in `ground_truth.csv`. The planner does not load the ground-truth file.
+
+## Reproducibility results
+
+| Run | Files compared | Matching results |
+|---|---:|---|
+| Starter generator + planner, seed 20261022 | 29 | All CSV row counts, SQLite table counts, and output SHA-256 matched |
+| Full generator, seed 20261022 | 22 | All CSV row counts, SQLite table counts, and output SHA-256 matched; run 2 deleted after comparison |
+
+## Known limitations
+
+- Full-scale generation was reproduced after stock tuning, but full-scale planning was not rerun after production and inventory changes; `docs/full_planner_validation.json` is historical.
+- The five anomaly detectors run against labeled scenario overlays linked to valid source records. They do not mutate baseline facts or test broad production anomaly streams.
+- Production capacity is divided evenly across forecast weeks. Production plans are exported as CSV; planner execution does not persist plans into the SQLite lifecycle table.
+- Full planner output reproducibility was not compared; starter planner outputs were.
+- GitHub publishing and assignment form submission remain manual.
 
 ## Phase 2 files and outputs
 
