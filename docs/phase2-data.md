@@ -86,6 +86,8 @@ Actual validation outcomes for `data/starter/`:
 
 ## Reproducibility record
 
+The per-file checksums in this Phase 2 record are historical: they predate anomaly fixtures, BOM planning, and the Step 3 stock tuning. The current all-output starter and tuned full comparisons are documented in `docs/reproducibility.md`.
+
 Run 1 command:
 
 ```bash

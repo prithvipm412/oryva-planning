@@ -694,20 +694,31 @@ def file_sha256(path: Path) -> str:
 
 def compare(left: Path, right: Path) -> None:
     left, right = left.expanduser().resolve(), right.expanduser().resolve()
-    left_files = {p.name: p for p in left.glob("*.csv")}
-    right_files = {p.name: p for p in right.glob("*.csv")}
+    left_files = {p.relative_to(left).as_posix(): p for p in left.iterdir() if p.is_file()}
+    right_files = {p.relative_to(right).as_posix(): p for p in right.iterdir() if p.is_file()}
     if not left_files or left_files.keys() != right_files.keys():
-        raise AssertionError(f"CSV file sets differ: {sorted(left_files)} vs {sorted(right_files)}")
-    print(f"Comparing {len(left_files)} canonical CSV files")
+        raise AssertionError(f"Output file sets differ: {sorted(left_files)} vs {sorted(right_files)}")
+    print(f"Comparing {len(left_files)} output files (CSVs, JSON, SQLite, and manifests)")
     for name in sorted(left_files):
         left_path, right_path = left_files[name], right_files[name]
-        left_rows = sum(1 for _ in left_path.open("r", encoding="utf-8", newline="")) - 1
-        right_rows = sum(1 for _ in right_path.open("r", encoding="utf-8", newline="")) - 1
+        left_rows = right_rows = None
+        if left_path.suffix == ".csv":
+            left_rows = sum(1 for _ in left_path.open("r", encoding="utf-8", newline="")) - 1
+            right_rows = sum(1 for _ in right_path.open("r", encoding="utf-8", newline="")) - 1
+        elif left_path.suffix in (".sqlite", ".sqlite3", ".db"):
+            def table_counts(path):
+                with sqlite3.connect(path) as connection:
+                    names=[x[0] for x in connection.execute("select name from sqlite_master where type='table' and name not like 'sqlite_%' order by name")]
+                    return {table:connection.execute(f"select count(*) from {table}").fetchone()[0] for table in names}
+            left_counts,right_counts=table_counts(left_path),table_counts(right_path)
+            if left_counts!=right_counts: raise AssertionError(f"SQLite table row counts differ in {name}: {left_counts} vs {right_counts}")
+            left_rows=sum(left_counts.values()); right_rows=sum(right_counts.values())
         left_hash, right_hash = file_sha256(left_path), file_sha256(right_path)
         if left_rows != right_rows or left_hash != right_hash:
             raise AssertionError(f"Mismatch in {name}: rows {left_rows}/{right_rows}; SHA-256 {left_hash}/{right_hash}")
-        print(f"PASS {name}: rows={left_rows}, sha256={left_hash}")
-    print("PASS all row counts and SHA-256 checksums match")
+        suffix=f", rows={left_rows}" if left_rows is not None else ""
+        print(f"PASS {name}{suffix}, sha256={left_hash}")
+    print("PASS all output row counts and SHA-256 checksums match")
 
 
 def validate_existing(out_dir: Path) -> None:

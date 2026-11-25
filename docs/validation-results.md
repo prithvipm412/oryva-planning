@@ -15,9 +15,9 @@ Results: generator validation passed 41 checks; schema smoke passed all six chec
 
 Anomaly values live in explicit scenario overlay records so the base operational rows remain valid and unrelated rows stay untouched. Each injection has `issue_type` and source links in SQLite and CSV. See `docs/phase3-planning.md` for production/BOM modeling limits.
 
-## Full-scale planner run
+## Full-scale generation after stock tuning
 
-One capped planner run completed on the seed `20261022` full dataset. It reconciled 6,021,600 balances and wrote 5,739,530 shortages, 5,739,530 ranked rows, and 9,626,115 feasible mitigation options, with all planner validation booleans passing. The machine-readable summary and hashes are `docs/full_planner_validation.json`; full CSVs remain in `/private/tmp/oryva-full-run2` and are excluded from the repository.
+Two full generator runs completed in under six minutes each and passed source validation. `generate_data.py compare` matched all 22 generated outputs, including the SQLite DB, source manifest, issue fixtures, all CSV row counts, and SHA-256. See `docs/reproducibility.md`. `docs/full_planner_validation.json` is historical and predates the production and stock-tuning changes; no full planner run was done after those changes.
 
 ## Phase 1 database validation record
 

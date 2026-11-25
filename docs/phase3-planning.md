@@ -24,9 +24,9 @@ All planner validation checks passed. Of 147 shortages, 211 feasible options wer
 
 With opening inventory seeded near one forecast horizon, the observed shortage rate is 147 / 1,308 = **11.24%**. Mean shortage quantity is **50.12** units and median is **40.43**. Cause counts: demand exceeds opening stock and scheduled arrivals, **141**; production constraint limits feasible BOM conversion, **6**. Demand spikes remain at 100 rows and constrained suppliers at 2; the generator remains fixed-seed.
 
-## Full-scale source reproducibility
+## Historical full-scale evidence (before anomaly and stock updates)
 
-Both full generation commands used seed `20261022`, preset `full`, and completed successfully. Each has 3,000 SKUs, 50 locations, 52 ISO weeks, 500 suppliers, 10,000 purchase orders, 115,800 assortment pairs, and 6,021,600 demand rows. Both validated with zero FK/duplicate/date/UOM/capacity/lifecycle failures. The compare command passed row counts and SHA-256 for all 15 canonical CSVs:
+This 15-CSV comparison predates Step 1 anomalies and Step 3 stock tuning. The superseding 22-output full-generation comparison is in `docs/reproducibility.md`.
 
 | CSV | Rows | SHA-256 (both runs) |
 |---|---:|---|
@@ -46,7 +46,7 @@ Both full generation commands used seed `20261022`, preset `full`, and completed
 | supplier_capacity.csv | 6,000 | `6faac1c75a7d07898e1e8c7fab43dc9eb90527fde955af45db283f1861b2ebc4` |
 | transport_delay.csv | 10,000 | `5acf8abe7b1e8906314d2d9a72494868b05d9ba2b7458ab375525fd83e55e549` |
 
-The two generated source directories are `/private/tmp/oryva-full-run1` and `/private/tmp/oryva-full-run2`. The first uncapped planner attempt was stopped when the mitigation export reached 17.2 million rows. The capped planner completed on run 2 before 18:10 IST. It reconciled 6,021,600 balance rows and generated 5,739,530 shortages, 5,739,530 ranked rows, 9,626,115 feasible mitigation rows (maximum three per shortage), and five ground-truth fixtures. All validation booleans passed. Summary and per-file checksums are committed in `docs/full_planner_validation.json`; the multi-gigabyte planner CSVs remain in `/private/tmp/oryva-full-run2` and are not in Git.
+The earlier uncapped planner was stopped when the mitigation export reached 17.2 million rows. Its capped predecessor output in `docs/full_planner_validation.json` is historical and predates production planning and stock tuning. No full planner was run after the latest changes; the starter planner is the acceptance output.
 
 ## Edge-case coverage and limits
 
