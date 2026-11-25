@@ -11,9 +11,13 @@ python3 db.py smoke
 python3 -m unittest -v
 ```
 
-Results: generator validation passed 40 checks; schema smoke passed all six checks; all four unit tests passed. The planner reconciled 1,308 weekly balances and generated 1,052 explainable shortages, 1,052 ranked shortage rows, 1,786 feasible mitigations (no more than three per shortage), and five separately stored labeled edge-case fixtures. All exported starter files are under 50 MB. Planner checksums and detailed booleans are saved in `data/starter/planner_validation.json`.
+Results: generator validation passed 40 checks; schema smoke passed all six checks; all five unit tests passed. The planner reconciled 1,308 weekly balances and generated 1,052 explainable shortages, 1,052 ranked shortage rows, 1,786 feasible mitigations (no more than three per shortage), and five separately stored labeled edge-case fixtures. All exported starter files are under 50 MB. Planner checksums and detailed booleans are saved in `data/starter/planner_validation.json`.
 
 The edge fixtures point to relevant source IDs, but they describe isolated expected-rule cases rather than corrupting baseline rows. Automated fixture-specific detectors and issue links in SQLite are not implemented. See `docs/phase3-planning.md` for this and the production/BOM modeling limits.
+
+## Full-scale planner run
+
+One capped planner run completed on the seed `20261022` full dataset. It reconciled 6,021,600 balances and wrote 5,739,530 shortages, 5,739,530 ranked rows, and 9,626,115 feasible mitigation options, with all planner validation booleans passing. The machine-readable summary and hashes are `docs/full_planner_validation.json`; full CSVs remain in `/private/tmp/oryva-full-run2` and are excluded from the repository.
 
 ## Phase 1 database validation record
 

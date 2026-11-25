@@ -30,7 +30,7 @@ Both generation and validation runs passed at 3,000 SKUs, 50 locations, 52 weeks
 | supplier_capacity.csv | 6,000 | `6faac1c75a7d07898e1e8c7fab43dc9eb90527fde955af45db283f1861b2ebc4` |
 | transport_delay.csv | 10,000 | `5acf8abe7b1e8906314d2d9a72494868b05d9ba2b7458ab375525fd83e55e549` |
 
-The source data are synthetic and use no external data. Full-scale outputs remain in `/private/tmp`; only this concise evidence is included in the repository. A full-scale planner output comparison was not run.
+The source data are synthetic and use no external data. Full-scale outputs remain in `/private/tmp`; only concise evidence is included in the repository. A capped planner run on full run 2 completed: 6,021,600 balances, 5,739,530 shortages/ranking rows, 9,626,115 feasible mitigation options, and five ground-truth fixtures. All planner validation checks passed. See `docs/full_planner_validation.json` for the summary and checksums. Planner-output reproducibility across two full runs was not compared.
 
 ## Starter preset
 

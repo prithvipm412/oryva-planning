@@ -13,9 +13,13 @@ __pycache__/
 
 # Full-scale generated output is reproducible and stays outside GitHub.
 /data/full/
+/data/full-*/
+/data/full_*/
 /data/*full*/
+/data/**/full/
 /data/oryva-full*/
 /full/
+/full-*/
 /full_*/
 *.full.csv
 

@@ -43,10 +43,10 @@ The checks confirm application tables exist, foreign-key enforcement is on for e
 The starter preset is 24 SKUs, 6 locations, 12 demand weeks, 12 suppliers, and 36 inbound purchase orders. It uses seed `20261022` by default. Generation reuses `schema.sql` and `connect_db()` and refuses to write into a non-empty output directory.
 
 ```bash
-python generate_data.py generate --preset starter --seed 20261022 --out-dir data/starter
+python3 generate_data.py generate --preset starter --seed 20261022 --out-dir /private/tmp/oryva-starter-generated
 ```
 
-This writes a SQLite database, 15 canonical CSV files, and `source_manifest.json` under `data/starter/`. The generator validates foreign keys, primary-key duplicates, ISO week/date alignment, UOM consistency, date order, lead-time-derived arrival dates, capacity/minimum quantities, and PO lifecycle history. Revalidate an existing output with:
+This writes a SQLite database, 15 canonical CSV files, and `source_manifest.json` under the chosen empty output directory. The committed, planned starter dataset is in `data/starter/`. The generator validates foreign keys, primary-key duplicates, ISO week/date alignment, UOM consistency, date order, lead-time-derived arrival dates, capacity/minimum quantities, and PO lifecycle history. Revalidate an existing output with:
 
 ```bash
 python generate_data.py validate --out-dir data/starter

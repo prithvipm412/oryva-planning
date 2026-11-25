@@ -30,7 +30,7 @@ Status updated 2026-11-25. Schema, starter generation and planning deliverables 
 | Realistic distributions/variation, valid joins, dependency/lifecycle consistency, derivation, edge coverage, isolated labels, fixed-seed reproducibility, lawful provenance | 2–4 | Data review summary, validation/reproducibility checksums, source manifest, and documentation |
 | Lawful external data and source manifest where used | 2 | Source manifest with URL/version/date/license/attribution/transforms/discarded fields, or documented synthetic-only approach |
 | Public GitHub repo and submission form | 5 | Public repository URL and submission confirmation (not part of Phase 1) |
-| README install/configure/run; tests and validation output | 1–3 | README includes install, generator, seed, validation and test commands; four unit tests pass |
+| README install/configure/run; tests and validation output | 1–3 | README includes install, generator, seed, validation and test commands; five unit tests pass |
 | Data exports, schema/dictionary, generator command/seed, source manifest/summary | 1 (schema/dictionary), 2 (starter exports/generator/seed/manifest), 4 (final summary) | Starter artifacts and run evidence in `data/starter/` and `docs/phase2-data.md` |
 | Reproducibility with same seed | 2 | Two starter runs with matching per-CSV row counts and SHA-256 in `docs/phase2-data.md` |
 | Build and test locally; publish; submit; auditable explanations | 1–5 | Local phase checks now; repository/form evidence in final phase |

@@ -40,7 +40,7 @@ Both full generation commands used seed `20261022`, preset `full`, and completed
 | supplier_capacity.csv | 6,000 | `6faac1c75a7d07898e1e8c7fab43dc9eb90527fde955af45db283f1861b2ebc4` |
 | transport_delay.csv | 10,000 | `5acf8abe7b1e8906314d2d9a72494868b05d9ba2b7458ab375525fd83e55e549` |
 
-The two generated source directories are `/private/tmp/oryva-full-run1` and `/private/tmp/oryva-full-run2`. An uncapped planner attempt was stopped before ranking completed because its mitigation export exceeded 17 million rows. A capped planner attempt was started on run 2 in `/private/tmp`; if it does not finish by 18:10 IST, it is not acceptance evidence. The committed capped planner passed on the starter dataset. Full source CSV reproducibility evidence is in `docs/reproducibility.md`.
+The two generated source directories are `/private/tmp/oryva-full-run1` and `/private/tmp/oryva-full-run2`. The first uncapped planner attempt was stopped when the mitigation export reached 17.2 million rows. The capped planner completed on run 2 before 18:10 IST. It reconciled 6,021,600 balance rows and generated 5,739,530 shortages, 5,739,530 ranked rows, 9,626,115 feasible mitigation rows (maximum three per shortage), and five ground-truth fixtures. All validation booleans passed. Summary and per-file checksums are committed in `docs/full_planner_validation.json`; the multi-gigabyte planner CSVs remain in `/private/tmp/oryva-full-run2` and are not in Git.
 
 ## Edge-case coverage and limits
 
